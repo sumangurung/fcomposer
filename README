@@ -1,0 +1,9 @@
+fcomposer 0.9 README
+====================
+	
+	fcomposer is a ruby framework for (western) music composition.
+
+Requirements
+------------
+	* ruby 1.8.7
+

@@ -12,13 +12,12 @@
 module FComposer
   class Note
     attr_accessor :pitch, :octave, :accidental, :duration_name, :duration_value, :augmented
-    @@note_list = [ ["C"], ["C#", "Db"],["D"], ["D#", "Eb"],["E"], ["F"],["F#", "Gb"],["G"], ["G#", "Ab"],["A"], ["A#", "Bb"],"B"]
-    @@duration_list = { "Longa" => 4.0, "Breve" => 2.0, "Whole" => 1.0, "Half" => 0.5, "Quarter" => 0.25, "Eighth" => 0.125, "Sixteenth" => 0.0625, "Thirty-second" => 0.03125, "Sixty-fourth" => 0.015625, "Hundred Twenty-eighth" => 0.0078125 }
-
+    @@note_list = [ ["C"], ["C#", "Db"],["D"], ["D#", "Eb"],["E"], ["F"],["F#", "Gb"],["G"], ["G#", "Ab"],["A"], ["A#", "Bb"],["B"]]
+    @@duration_list = { 'whole' => 4.0, 'half' => 2.0, 'quarter' => 1.0, 'eighth' => 0.5, '8th' => 0.5, 'sixteenth' => 0.25, '16th' => 0.25, 'thirty second' => 0.125, 'thirtysecond' => 0.125, '32nd' => 0.125, 'sixty fourth' => 0.0625, 'sixtyfourth' => 0.0625, '64th' => 0.0625 }
     def initialize(options = {})
-      defaults = { :pitch => "A", :octave => 4, :accidental => "", :duration_name => "Quarter", :augmented => 0 }
+      defaults = { :pitch => "A", :octave => 4, :accidental => "", :duration_name => "quarter", :augmented => 0 }
       @pitch = options[:pitch] ? options[:pitch] : defaults[:pitch]
-      @octave = options[:octave]  ? options[:octave] : defaults[:octave]
+      @octave = options[:octave]  ? options[:octave].to_i : defaults[:octave].to_i
       @accidental = options[:accidental]  ? options[:accidental] : defaults[:accidental]
       self.duration = options[:duration]  ? options[:duration] : defaults[:duration_name]
       @augmented = options[:augmented]  ? options[:augmented] : defaults[:augmented]
@@ -36,6 +35,22 @@ module FComposer
     
     def duration
       return @duration_name
+    end
+    
+    def position
+      @position = 0
+      @@note_list.each do |note|
+        return @position if note.include?("#{@pitch}#{@accidental}")
+        @position += 1
+      end
+    end
+    
+    def to_midi
+      return ((@octave + 1) * 12) + (self.position);
+    end
+    
+    def to_frequency
+      return 440.0 * (2 ** ((self.to_midi - 69).to_f/12.0))
     end
   end
 end

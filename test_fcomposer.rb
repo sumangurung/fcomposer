@@ -1,5 +1,6 @@
 # This is the core library
-require 'fcomposer.rb'
+require 'rubygems'
+require 'fcomposer'
 
 # This is added to run tests automatically
 require 'test/unit'

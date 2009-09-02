@@ -6,15 +6,12 @@
 #   You can distribute/modify this program under the terms of
 #   the GNU Lesser General Public License version 2.
 #
-# This example shows how to generate a midi file using fcomposer.
-# This requires midilib (you can install it from gems)
+# This example shows how to generate a midi file using fcomposer, writing the Guido's Method seuqnce for a specific text.
+# This script requires midilib - http://midilib.rubyforge.org/
 #
-# The guido's composition method maps vowels with two octaves of C major scale notes:
-#   G A B C D   E F G A B   C D E F G   A
-#   a e i o u - a e i o u - a e i o u - a
+# You can find more information about guido's method on Musimatics Vol. 1 p 285
 #
-# 
-#
+
 require 'rubygems'
 require 'fcomposer'
 require 'midilib/sequence'
