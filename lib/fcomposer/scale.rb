@@ -2,10 +2,9 @@
 #
 #   Copyright (c) 2009 Francisco Tufró <contacto@franciscotufro.com.ar>
 #
-#   This program is free software.
-#   You can distribute/modify this program under the terms of
-#   the GNU Lesser General Public License version 2.
+#   See LICENCE in the root directory.
 #
+
 module FComposer
   class Scale
     attr_accessor :name, :pitchs

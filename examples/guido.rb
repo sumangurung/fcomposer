@@ -39,10 +39,10 @@ end
 
 def add_note(note, track, seq)
   track.events << NoteOnEvent.new(0, note.to_midi, 127, 0)
-  track.events << NoteOffEvent.new(0, note.to_midi, 127, seq.note_to_delta(note.duration))
+  track.events << NoteOffEvent.new(0, note.to_midi, 127, seq.note_to_delta(FComposer::Duration.new.name))
 end
 
-@text = "Guido's Method set the ground for objective (as non subjective) composition method. I think it's a cool example for this project."
+@text = "Guido's Method set the ground for objective (as non subjective) composition method."
 notes = generate_notes_for_text(@text)
 
 seq = Sequence.new()
@@ -53,11 +53,12 @@ track.events << MetaEvent.new(META_SEQ_NAME, 'Guido')
 track.name = 'Guido'
 track.instrument = GM_PATCH_NAMES[0]
 track.events << Controller.new(0, CC_VOLUME, 127)
-track.events << ProgramChange.new(0, 1, 0)
+track.events << ProgramChange.new(0,1, 0)
 
 notes.each do |note|
   add_note(note,track,seq)
 end
+
 
 # Write the sequence to a MIDI file.
 File.open('guidos-method-sample.mid', 'wb') { | file | seq.write(file) }

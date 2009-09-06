@@ -18,6 +18,14 @@ class NoteTest < Test::Unit::TestCase
     assert_equal 1, duration.augmented
   end
 
+  def test_value
+    duration = FComposer::Duration.new(:name => "quarter")
+    assert_equal 1, duration.value
+    assert_equal 0.5, duration.value(120)
+    duration = FComposer::Duration.new(:name => "eighth")
+    assert_equal 0.5, duration.value
+  end
+
   def test_next
     duration = FComposer::Duration.new(:name => "whole")
     assert_equal "whole", duration.name

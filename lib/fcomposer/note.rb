@@ -2,55 +2,60 @@
 #
 #   Copyright (c) 2009 Francisco Tufró <contacto@franciscotufro.com.ar>
 #
-#   This program is free software.
-#   You can distribute/modify this program under the terms of
-#   the GNU Lesser General Public License version 2.
-#
+#   See LICENCE in the root directory.
 #
 #   To understand the nomenclature of this code please head to http://en.wikipedia.org/wiki/Note
 
 module FComposer
+
+  # The Note class handles the basic structure for music notation.
+  # To understand the nomenclature of this code please head to http://en.wikipedia.org/wiki/Note
+
   class Note
-    attr_accessor :pitch, :octave, :accidental, :duration_name, :duration_value, :augmented
-    @@note_list = [ ["C"], ["C#", "Db"],["D"], ["D#", "Eb"],["E"], ["F"],["F#", "Gb"],["G"], ["G#", "Ab"],["A"], ["A#", "Bb"],["B"]]
-    @@duration_list = { 'whole' => 4.0, 'half' => 2.0, 'quarter' => 1.0, 'eighth' => 0.5, '8th' => 0.5, 'sixteenth' => 0.25, '16th' => 0.25, 'thirty second' => 0.125, 'thirtysecond' => 0.125, '32nd' => 0.125, 'sixty fourth' => 0.0625, 'sixtyfourth' => 0.0625, '64th' => 0.0625 }
+
+    attr_accessor :pitch, :octave, :accidental
+    @@note_list = [ ["C"], ["Cs", "Db"],["D"], ["Ds", "Eb"],["E"], ["F"],["Fs", "Gb"],["G"], ["Gs", "Ab"],["A"], ["As", "Bb"],["B"]]
+
+    # Generates a new Note object.
+    # You can pass the following parameters within a hash: 
+    # * pitch (Is the pitch class, "A" is the default)
+    # * octave (The octave number, default is 4)
+    # * accidental (The accidental for the note, can be "" for normal,2 "b" for flat or "s" for sharp, default is normal)
+    #
+    # <tt>note = FComposer::Note.new(:pitch => "D", :octave => 5, :accidental => "s")</tt>
+
     def initialize(options = {})
-      defaults = { :pitch => "A", :octave => 4, :accidental => "", :duration_name => "quarter", :augmented => 0 }
+      defaults = { :pitch => "A", :octave => 4, :accidental => "" }
       @pitch = options[:pitch] ? options[:pitch] : defaults[:pitch]
       @octave = options[:octave]  ? options[:octave].to_i : defaults[:octave].to_i
       @accidental = options[:accidental]  ? options[:accidental] : defaults[:accidental]
-      self.duration = options[:duration]  ? options[:duration] : defaults[:duration_name]
-      @augmented = options[:augmented]  ? options[:augmented] : defaults[:augmented]
     end
-    
+
+    # Returns the full name for the note.
+    #
+    # <tt>note = FComposer::Note.new(:pitch => "D", :octave => 5, :accidental => "s")</tt>
+    #
+    # <tt>note.name => "Ds5"</tt>
     def name
       return "#{@pitch}#{@accidental}#{@octave}"
     end
     
-    # This function lookups the time fraction for the selected duration
-    def duration=(duration_name)
-      @duration_name = duration_name
-      @duration_value = @@duration_list[duration_name]
-    end
-    
-    def duration
-      return @duration_name
-    end
-    
+    # Returns the position of the current note in the chromatic scale.
     def position
-      @position = 0
-      @@note_list.each do |note|
-        return @position if note.include?("#{@pitch}#{@accidental}")
-        @position += 1
+      @@note_list.each_index do |index|
+        return index if @@note_list[index].include?("#{@pitch}#{@accidental}")
       end
     end
     
+    # Returns the MIDI Note code for the current pitch.
     def to_midi
       return ((@octave + 1) * 12) + (self.position);
     end
     
+    # Returns the frequency of the current note in hz. This uses the diatonic scale fixed in 440hz, you can overload this function to fix it in another frequency or use another scale different than the diatonic one.
     def to_frequency
       return 440.0 * (2 ** ((self.to_midi - 69).to_f/12.0))
     end
+
   end
 end
