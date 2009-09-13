@@ -20,10 +20,17 @@ class NoteTest < Test::Unit::TestCase
 
   def test_value
     duration = FComposer::Duration.new(:name => "quarter")
-    assert_equal 1, duration.value
-    assert_equal 0.5, duration.value(120)
+    assert_equal 1.0, duration.value
     duration = FComposer::Duration.new(:name => "eighth")
     assert_equal 0.5, duration.value
+  end
+
+  def test_to_seconds
+    duration = FComposer::Duration.new(:name => "quarter")
+    assert_equal 1, duration.to_seconds
+    assert_equal 0.5, duration.to_seconds(120)
+    duration = FComposer::Duration.new(:name => "eighth")
+    assert_equal 0.5, duration.to_seconds
   end
 
   def test_next

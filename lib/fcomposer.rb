@@ -8,6 +8,7 @@
 require 'fcomposer/note'
 require 'fcomposer/duration'
 require 'fcomposer/scale'
+require 'fcomposer/bar'
 
 module FComposer
 end

@@ -15,4 +15,5 @@ require 'test/unit'
 require 'test/tc_note_test.rb'
 require 'test/tc_duration_test.rb'
 require 'test/tc_scale_test.rb'
+require 'test/tc_bar_test.rb'
 

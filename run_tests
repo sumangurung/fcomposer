@@ -1,0 +1,2 @@
+#!/bin/bash
+gem build fcomposer.gemspec && sudo gem uninstall fcomposer && sudo gem install fcomposer && ruby test_fcomposer.rb

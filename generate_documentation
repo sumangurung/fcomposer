@@ -1,0 +1,1 @@
+rdoc -U -c utf-8 --main lib/fcomposer.rb -x test -N

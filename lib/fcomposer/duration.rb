@@ -25,7 +25,7 @@ module FComposer
     # Generates a new Note object.
     # You can pass the following parameters within a hash: 
     # * name (The duration name of the note, can be "whole", "half", "quarter", "eighth", "sixteenth", "thirtysecond", "sixtyfourth", default is "quarter")
-    # * augmented (Sums half the duration)
+    # * augmented (Sums half the duration) NOT WORKING!!!
     #
     # <tt>note = FComposer::Duration.new(:duration => "whole", :augmented => 1)</tt>
     def initialize(options = {})
@@ -82,8 +82,13 @@ module FComposer
       end
     end
 
+    # Returns the duration of the note in a ratio from the quarter. 
+    def value
+      return @@duration_values[@name]
+    end
+
     # Returns the duration of the note for the bpm passed in seconds. Default is 60 bpm
-    def value(bpm = 60.0)
+    def to_seconds(bpm = 60.0)
       return (@@duration_values[@name] *  60.0) / bpm
     end
   end
